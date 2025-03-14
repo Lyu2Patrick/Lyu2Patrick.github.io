@@ -82,6 +82,7 @@
 <li><p>b  Guangdong Midea Air-Conditioning Equipment Co., Ltd, Guangdong, 528311, China</p>
 </li>
 </ul>
+<p><a target="_blank" rel="noopener" href="https://doi.org/10.1016/j.buildenv.2023.110405">https://doi.org/10.1016/j.buildenv.2023.110405</a></p>
 <h2 id="Highlights"><a href="#Highlights" class="headerlink" title="Highlights"></a>Highlights</h2><ul>
 <li>For evaluating thermal sensation using thermal image sensor, front view is the best.</li>
 <li>Two-stage model is developed by combining machine learning classifier with regression.</li>
@@ -110,7 +111,83 @@
 
 <div align="center">Fig. 11. Practical applications and the next steps for future researches.</div>
 
-<h2 id="About-this-study"><a href="#About-this-study" class="headerlink" title="About this study"></a>About this study</h2> 
+<h2 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h2><p>Through the subject experiment, this study combined machine learning classification algorithms and regression algorithms to analyze the surface temperature collection zones that accurately reflect thermal sensation under different imaging views. Moreover, thermal sensation evaluation two-stage models were established for users of different genders, which are suitable for various thermal imaging views. The main conclusions are as follows:</p>
+<ul>
+<li>In assessing human thermal sensation via thermal imaging, the most optimal view is the frontal face, followed by the lateral face, the top of the head, and the forearm&#x2F;hand dorsum.</li>
+<li>The range of temperature differences between facial zones, cheek surface temperature, overhead surface temperature, and forearm surface temperature can be used as indicators for assessing the degree of deviation from neutral thermal sensation.</li>
+<li>By using the random forest algorithm, using only the cheek temperature from frontal face imaging as a feature can achieve an accuracy rate of 75.0%–78.3% for three-level thermal sensation classification. Adding indoor air temperature and air velocity to the features can increase the accuracy of the classification model to a maximum of 86.7%.</li>
+<li>The proposed thermal sensation evaluation two-stage model based on thermal imaging has a MAE of 0.41–0.49 thermal sensation units for male and 0.50–0.53 thermal sensation units for female.</li>
+</ul>
+<h2 id="Paper-PDF-Viewer"><a href="#Paper-PDF-Viewer" class="headerlink" title="Paper PDF Viewer"></a>Paper PDF Viewer</h2><div style="text-align: center;">
+    <button onclick="prevPage()">Previous</button>
+    <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+    <button onclick="nextPage()">Next</button>
+</div>
+
+<p><canvas id="pdf-viewer" style="border: 1px solid #000; width: 100%; max-width: 800px;"></canvas></p>
+<script type="module">
+    import { getDocument, GlobalWorkerOptions } from '/js/pdfjs/pdf.mjs';
+
+    var url = "/files/paper5.pdf";
+    var pdfDoc = null;
+    var pageNum = 1;
+    var pageRendering = false;
+    var pageNumPending = null;
+    var scale = 1.5;
+    var canvas = document.getElementById('pdf-viewer');
+    var ctx = canvas.getContext('2d');
+
+    function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function(page) {
+            var viewport = page.getViewport({ scale: scale });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            var renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+        });
+
+        document.getElementById('page-num').textContent = num;
+    }
+
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+
+
+    window.prevPage = function() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    };
+
+    window.nextPage = function() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    };
+
+    GlobalWorkerOptions.workerSrc = "/js/pdfjs/pdf.worker.mjs";
+    getDocument(url).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById('page-count').textContent = pdfDoc.numPages;
+        renderPage(pageNum);
+    });
+</script> 
       <!-- reward -->
       
     </div>
@@ -178,7 +255,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2023
+        2023-2025
         <i class="ri-heart-fill heart_icon"></i> Junmeng lyu
       </li>
     </ul>
@@ -257,11 +334,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" target="_blank" rel="noopener" href="https://junmeng84319.lofter.com/">Photo</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/friends">Cooperate</a>
+      <a class="nav-item-link" href="/photos">Photo</a>
     </li>
     
   </ul>

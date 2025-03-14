@@ -77,6 +77,7 @@
        
   <h2 id="Authors"><a href="#Authors" class="headerlink" title="Authors"></a>Authors</h2><p>Junmeng Lyu, Yongxiang Shi, Heng Du, Zhiwei Lian</p>
 <p>School of Design, Shanghai Jiao Tong University, Shanghai, 200240, China</p>
+<p><a target="_blank" rel="noopener" href="https://doi.org/10.1016/j.buildenv.2023.111002">https://doi.org/10.1016/j.buildenv.2023.111002</a></p>
 <h2 id="Highlights"><a href="#Highlights" class="headerlink" title="Highlights"></a>Highlights</h2><ul>
 <li><p>Established thermal comfort zones for the co-running spaces of air conditioning and fans.</p>
 </li>
@@ -115,11 +116,77 @@
 
 <div align="center">Fig. 11. a) Comparison of actual thermal comfort votes with thermal comfort zone. b) Comparison of thermal comfort votes given in existing studies with thermal comfort zone proposed in this study</div>
 
+<h2 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h2><p>In order to analyze the comprehensive impact of FACS on occupant comfort and energy efficiency, this study utilized a regression algorithm to establish a range of comfort parameters for air conditioning and fan operation. The comfort zone established demonstrates that the upper limit of air speed for user comfort increases with rising ambient temperature. For females, the upper limit of comfort parameters is an air temperature of 29.8 °C and an air speed of 1.4 m&#x2F;s, while for males, it is 29.3 °C and 1.5 m&#x2F;s. In cooler environments, there are noticeable differences in the sensation of draft and thermal comfort between sexes. Specifically, in an environment set at 24 °C, the difference in the upper limit of air speed required to maintain comfort between sexes can reach 0.5 m&#x2F;s. In spaces where uniform air speed and indoor air temperature are required, the upper limit for environmental parameters to ensure the comfort of all occupants (both sexes) is 29.0 °C and an airspeed of 1.3 m&#x2F;s. Furthermore, EnergyPlus software was used to simulate the energy consumption of an office building compliant with the ASHRAE standards, considering the application of FACS. The results demonstrate that this system achieves significant energy savings. In regions with hot summers and warm winters, the combined operation of fans and air conditioning can result in energy savings exceeding 100 GJ&#x2F;year. Overall, compared to creating a uniform indoor environment at 26 °C, buildings utilizing a combined fan and air conditioning system can reduce HVAC system energy consumption by over 16 %. Additionally, considering sex differences when implementing this system can further contribute to energy savings of approximately 4 %.</p>
+<h2 id="Paper-PDF-Viewer"><a href="#Paper-PDF-Viewer" class="headerlink" title="Paper PDF Viewer"></a>Paper PDF Viewer</h2><div style="text-align: center;">
+    <button onclick="prevPage()">Previous</button>
+    <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+    <button onclick="nextPage()">Next</button>
+</div>
+
+<p><canvas id="pdf-viewer" style="border: 1px solid #000; width: 100%; max-width: 800px;"></canvas></p>
+<script type="module">
+    import { getDocument, GlobalWorkerOptions } from '/js/pdfjs/pdf.mjs';
+
+    var url = "/files/paper8.pdf";
+    var pdfDoc = null;
+    var pageNum = 1;
+    var pageRendering = false;
+    var pageNumPending = null;
+    var scale = 1.5;
+    var canvas = document.getElementById('pdf-viewer');
+    var ctx = canvas.getContext('2d');
+
+    function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function(page) {
+            var viewport = page.getViewport({ scale: scale });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            var renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+        });
+
+        document.getElementById('page-num').textContent = num;
+    }
+
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
 
 
+    window.prevPage = function() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    };
 
+    window.nextPage = function() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    };
 
-<h2 id="About-this-study"><a href="#About-this-study" class="headerlink" title="About this study"></a>About this study</h2> 
+    GlobalWorkerOptions.workerSrc = "/js/pdfjs/pdf.worker.mjs";
+    getDocument(url).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById('page-count').textContent = pdfDoc.numPages;
+        renderPage(pageNum);
+    });
+</script> 
       <!-- reward -->
       
     </div>
@@ -187,7 +254,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2023
+        2023-2025
         <i class="ri-heart-fill heart_icon"></i> Junmeng lyu
       </li>
     </ul>
@@ -266,11 +333,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" target="_blank" rel="noopener" href="https://junmeng84319.lofter.com/">Photo</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/friends">Cooperate</a>
+      <a class="nav-item-link" href="/photos">Photo</a>
     </li>
     
   </ul>

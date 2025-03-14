@@ -84,6 +84,7 @@
 <li><p>c  Guangdong Midea Air-Conditioning Equipment Co., Ltd., Guangdong, China</p>
 </li>
 </ul>
+<p><a target="_blank" rel="noopener" href="https://doi.org/10.1016/j.enbuild.2023.112856">https://doi.org/10.1016/j.enbuild.2023.112856</a></p>
 <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>Predicting user behavior in setting air conditioning (A&#x2F;C) can help develop automatic A&#x2F;C control techniques, but it is challenging. Existing studies have largely focused on A&#x2F;C switching behavior models, with fewer studies exploring temperature-setting behavior models in various climate zones. This study analyzed differences in household A&#x2F;C temperature <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/topics/engineering/setpoints">setpoint</a> behaviors in three climate zones, using usage data collected from embedded sensors in A&#x2F;C during the cooling season. Further, five machine learning (ML) algorithms were applied to model the A&#x2F;C temperature setpoint behavior for the three climate zones. The results showed that the behavior is related to time, indoor air temperature (T<sub>in</sub>), <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/topics/engineering/outdoor-air-temperature">outdoor air temperature</a> (T<sub>out</sub>), temperature setpoint before settings (T<sub>set’</sub>), and cumulative time the A&#x2F;C is turned on (t<sub>c</sub>). A&#x2F;C usage behavior varied significantly among users in different climate zones. Users in hot summer and warm winter (HSWW) have a higher acceptable Tin and the opposite in <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/topics/earth-and-planetary-sciences/polar-regions">Cold zones</a>. In HSWW zones, users were able to find their preferred setting temperature more quickly. By applying the random forest algorithm and proper data pre-processing, the model can predict the “Warmer”, “Keep setpoint unchanged” and “Cooler” settings with 0.700–0.810 macro F1 score and 0.936–0.961 accuracy. This shows the excellent performance of ML algorithms in predicting user behavior with large data sizes. The Tin, Tset’, and tc are important input features. This work aims to model A&#x2F;C temperature setpoint behavior through ML algorithms to help develop intelligent A&#x2F;C control methods for different climate zones in the future.</p>
 <h2 id="Figures"><a href="#Figures" class="headerlink" title="Figures"></a>Figures</h2><img src="https://ars.els-cdn.com/content/image/1-s2.0-S0378778823000865-gr1_lrg.jpg" alt="img" style="zoom:20%;" />
 
@@ -118,10 +119,77 @@
 <div align="center">Fig. 14. An intelligent A/C control strategy based on temperature setpoint behavior model</div>
 
   
+<h2 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h2><p>Based on a large sample size of the A&#x2F;C usage dataset, this study analyzed the A&#x2F;C temperature setpoint behavior of users and built the A&#x2F;C temperature setpoint behavior model for the three climate zones by ML algorithms. The study found that the urban household A&#x2F;C temperature setpoint behavior is related to the time, Tin, Tout, tc, and Tset’. In the HSWW zone, 15 % of the samples had setpoints below 24 °C, which was about three times higher than the other two zones. In the HSCW and HSWW zones, Tin showed a weaker linear correlation with the Tset’, but a higher correlation with Tout compared to the Cold zone. Users in HSWW zones have a higher range of acceptable Tin during the summer months, while the opposite is observed in Cold zones. Notably, users in HSWW zones can find the preferred temperature setpoint more quickly after turning on A&#x2F;C. Based on these analysis results, five ML algorithms were used to develop A&#x2F;C temperature setpoint models for three climate zones, and the performance of the different algorithms was compared. By applying the RF algorithm and proper data preprocessing, the binary classification model can predict the “Warmer” and “Cooler” settings with 0.793–0.909 macro F1 score and 0.794–0.909 accuracy. The three-classification model can predict the “Warmer”, “NC” and “Cooler” settings with 0.700–0.810 macro F1 score and 0.936–0.961 accuracy. The Tin, tc, and Tset’ are important input features. The climate-sensitive model proposed in this study has better prediction performance than the model without distinguishing climate zones. Finally, the practical applications of the models proposed in this study were presented. In the future, the model proposed in this study can be combined with other thermal comfort models to optimize the A&#x2F;C system for both thermal comfort and energy efficiency.</p>
+<h2 id="Paper-PDF-Viewer"><a href="#Paper-PDF-Viewer" class="headerlink" title="Paper PDF Viewer"></a>Paper PDF Viewer</h2><div style="text-align: center;">
+    <button onclick="prevPage()">Previous</button>
+    <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+    <button onclick="nextPage()">Next</button>
+</div>
 
-  
+<p><canvas id="pdf-viewer" style="border: 1px solid #000; width: 100%; max-width: 800px;"></canvas></p>
+<script type="module">
+    import { getDocument, GlobalWorkerOptions } from '/js/pdfjs/pdf.mjs';
 
-<h2 id="About-this-study"><a href="#About-this-study" class="headerlink" title="About this study"></a>About this study</h2> 
+    var url = "/files/paper4.pdf";
+    var pdfDoc = null;
+    var pageNum = 1;
+    var pageRendering = false;
+    var pageNumPending = null;
+    var scale = 1.5;
+    var canvas = document.getElementById('pdf-viewer');
+    var ctx = canvas.getContext('2d');
+
+    function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function(page) {
+            var viewport = page.getViewport({ scale: scale });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            var renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+        });
+
+        document.getElementById('page-num').textContent = num;
+    }
+
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+
+
+    window.prevPage = function() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    };
+
+    window.nextPage = function() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    };
+
+    GlobalWorkerOptions.workerSrc = "/js/pdfjs/pdf.worker.mjs";
+    getDocument(url).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById('page-count').textContent = pdfDoc.numPages;
+        renderPage(pageNum);
+    });
+</script> 
       <!-- reward -->
       
     </div>
@@ -189,7 +257,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2023
+        2023-2025
         <i class="ri-heart-fill heart_icon"></i> Junmeng lyu
       </li>
     </ul>
@@ -268,11 +336,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" target="_blank" rel="noopener" href="https://junmeng84319.lofter.com/">Photo</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/friends">Cooperate</a>
+      <a class="nav-item-link" href="/photos">Photo</a>
     </li>
     
   </ul>

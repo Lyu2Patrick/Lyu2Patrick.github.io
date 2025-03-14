@@ -75,7 +75,14 @@
        
     <div class="article-entry" itemprop="articleBody">
        
-  <h2 id="Authors"><a href="#Authors" class="headerlink" title="Authors"></a>Authors</h2><h2 id="Highlights"><a href="#Highlights" class="headerlink" title="Highlights"></a>Highlights</h2><ul>
+  <h2 id="Authors"><a href="#Authors" class="headerlink" title="Authors"></a>Authors</h2><p>Qiantao Zhao<sup>a 1</sup>, Junmeng Lyu<sup>a 1</sup>, Heng Du<sup>a</sup>, Zhiwei Lian<sup>a</sup>, Zisheng Zhao<sup>b</sup></p>
+<ul>
+<li>a School of Design, Shanghai Jiao Tong University, Shanghai, 200240, China</li>
+<li>b Guangdong Midea Air-Conditioning Equipment Co., Ltd., Guangdong, 528311, China</li>
+<li>1 These two authors contributed equally and should be considered as co-first authors.</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://doi.org/10.1016/j.jtherbio.2022.103401">https://doi.org/10.1016/j.jtherbio.2022.103401</a></p>
+<h2 id="Highlights"><a href="#Highlights" class="headerlink" title="Highlights"></a>Highlights</h2><ul>
 <li>The best environment for male and female to use local cooling is inconsistent.</li>
 <li>Back cooling is useful for both genders and foot sole cooling is available for males.</li>
 <li>Under local cooling, female skin temperature is more sensitive than that of males.</li>
@@ -100,7 +107,84 @@
 
 <div align="center">Fig. 9. The mean values of skin temperatures at non-cooled body locations in five overall thermal sensation classification</div>
 
-<h2 id="About-this-study"><a href="#About-this-study" class="headerlink" title="About this study"></a>About this study</h2> 
+<h2 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h2><p>The conclusions of this study are as follows:</p>
+<ul>
+<li>Under local cooling, female has a greater variation in thermal sensation than male. In this experiment, male overall TSV is concentrated between 0 (neutral) and 1 (slightly warm), but female overall TSV is dispersed between −2 (cool) and 2 (warm).</li>
+<li>For both males and females, ambient temperature and cooling location have a significant impact on overall thermal sensation under local cooling, while cooling temperature and cooling location have a significant impact on local thermal sensation.</li>
+<li>In the three environments with different ambient temperature set up in this study, the best applicable indoor environment with local cooling for female is 31 °C. In this environment, back cooling at 24–26 °C achieves a neutral thermal sensation.</li>
+<li>Local cooling is applicable for male in all three environments with different ambient temperature set up in this study. Back cooling at 22–26 °C is recommended in 28 °C and 31 °C indoor environments. In a 34 °C environment, foot sole cooling with a higher cooling temperature is preferable.</li>
+<li>The skin temperatures of female are more sensitive to thermal sensation than that of males under local cooling. The skin temperature of female upper arm is the most sensitive, whereas that for male is the skin temperature of forearm.</li>
+</ul>
+<h2 id="Paper-PDF-Viewer"><a href="#Paper-PDF-Viewer" class="headerlink" title="Paper PDF Viewer"></a>Paper PDF Viewer</h2><div style="text-align: center;">
+    <button onclick="prevPage()">Previous</button>
+    <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+    <button onclick="nextPage()">Next</button>
+</div>
+
+<p><canvas id="pdf-viewer" style="border: 1px solid #000; width: 100%; max-width: 800px;"></canvas></p>
+<script type="module">
+    import { getDocument, GlobalWorkerOptions } from '/js/pdfjs/pdf.mjs';
+
+    var url = "/files/paper2.pdf";
+    var pdfDoc = null;
+    var pageNum = 1;
+    var pageRendering = false;
+    var pageNumPending = null;
+    var scale = 1.5;
+    var canvas = document.getElementById('pdf-viewer');
+    var ctx = canvas.getContext('2d');
+
+    function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function(page) {
+            var viewport = page.getViewport({ scale: scale });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            var renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+        });
+
+        document.getElementById('page-num').textContent = num;
+    }
+
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+
+
+    window.prevPage = function() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    };
+
+    window.nextPage = function() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    };
+
+    GlobalWorkerOptions.workerSrc = "/js/pdfjs/pdf.worker.mjs";
+    getDocument(url).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById('page-count').textContent = pdfDoc.numPages;
+        renderPage(pageNum);
+    });
+</script> 
       <!-- reward -->
       
     </div>
@@ -168,7 +252,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2023
+        2023-2025
         <i class="ri-heart-fill heart_icon"></i> Junmeng lyu
       </li>
     </ul>
@@ -247,11 +331,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" target="_blank" rel="noopener" href="https://junmeng84319.lofter.com/">Photo</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/friends">Cooperate</a>
+      <a class="nav-item-link" href="/photos">Photo</a>
     </li>
     
   </ul>

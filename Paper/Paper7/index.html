@@ -82,6 +82,7 @@
 <li><p>b  Guangdong Midea Air-Conditioning Equipment Co., Ltd, Guangdong, 528311, China</p>
 </li>
 </ul>
+<p><a target="_blank" rel="noopener" href="https://doi.org/10.1016/j.enbuild.2023.113345">https://doi.org/10.1016/j.enbuild.2023.113345</a></p>
 <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>This paper aims to explore gender differences in thermal comfort under coupled environmental factors, as previous studies have primarily focused on air temperature alone. The experiment involved 27 subjects, 13 males and 14 females, who experienced 12 different combinations of air temperature and air velocity environmental conditions. The <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/topics/engineering/subjective-response">subjective responses</a> and <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/topics/engineering/physiological-parameter">physiological parameters</a> were collected and analyzed. In colder environments, especially when low air temperatures are coupled with elevated air velocity, significant gender differences are observed, as females feel colder, more uncomfortable, and perceive stronger drafts than males. In hotter environments, when high air temperatures are coupled with still air, males tend to feel more uncomfortable and prefer higher air velocity, compared to females. However, few gender differences are observed when high air temperatures are coupled with elevated air velocity. Under colder conditions, forearm temperatures show a stronger correlation with subjective responses, while under hotter conditions, facial skin temperatures demonstrate a stronger correlation, for both genders. Moreover, the Elevated <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/topics/earth-and-planetary-sciences/airspeed">Air Speed</a> Model in ASHRAE 55–2020 is found to overestimates the cooling effect of elevated air velocity for both genders. The findings suggest that gender differences should be properly considered when designing indoor <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/topics/engineering/thermal-environment">thermal environments</a>, particularly under colder conditions.</p>
 <h2 id="Figures"><a href="#Figures" class="headerlink" title="Figures"></a>Figures</h2><img src="https://ars.els-cdn.com/content/image/1-s2.0-S0378778823005753-gr2_lrg.jpg" alt="img" style="zoom:20%;" />
 
@@ -102,7 +103,84 @@
 
 <div align="center">Fig. 13. Evaluation the prediction of cooling effect model in ASHRAE 55–2020</div>
 
-<h2 id="About-this-study"><a href="#About-this-study" class="headerlink" title="About this study"></a>About this study</h2> 
+
+<h2 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h2><p>This paper explores gender differences in thermal comfort under coupled air temperature and air velocity conditions, based on subjective responses and objective physiological parameters. The findings suggest that gender differences in thermal comfort are not straightforward and may depend on the interaction effects of multiple thermal environmental factors. The results are summarized as follows:</p>
+<ul>
+<li>In a colder environment, especially under coupled low air temperature and elevated air velocity condition, there are significant gender differences in thermal comfort. Females feel colder, more discomfort, and perceive stronger draft, compared to males.</li>
+<li>In a hotter environment, when high air temperature is coupled with still air velocity, males tend to feel more discomfort and prefer higher air velocity, compared to females. When high air temperature is coupled with elevated air velocity, however, there are few gender differences in thermal comfort.</li>
+<li>Under coupled air temperature and air velocity conditions, the correlation between forearm skin temperatures and subjective responses is stronger in colder environments, while the correlation between facial skin temperatures and subjective responses is stronger in hotter environments, for both males and females.</li>
+<li>Existing thermal comfort models often overestimate the impact of environmental factors on the subjective responses and do not account for gender differences, which can lead to errors in practical application. It is recommended that gender differences should be properly considered in the design of thermal environments, especially to avoid the combination of low air temperature and high air velocity that can cause discomfort for females.</li>
+</ul>
+<h2 id="Paper-PDF-Viewer"><a href="#Paper-PDF-Viewer" class="headerlink" title="Paper PDF Viewer"></a>Paper PDF Viewer</h2><div style="text-align: center;">
+    <button onclick="prevPage()">Previous</button>
+    <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+    <button onclick="nextPage()">Next</button>
+</div>
+
+<p><canvas id="pdf-viewer" style="border: 1px solid #000; width: 100%; max-width: 800px;"></canvas></p>
+<script type="module">
+    import { getDocument, GlobalWorkerOptions } from '/js/pdfjs/pdf.mjs';
+
+    var url = "/files/paper7.pdf";
+    var pdfDoc = null;
+    var pageNum = 1;
+    var pageRendering = false;
+    var pageNumPending = null;
+    var scale = 1.5;
+    var canvas = document.getElementById('pdf-viewer');
+    var ctx = canvas.getContext('2d');
+
+    function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function(page) {
+            var viewport = page.getViewport({ scale: scale });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            var renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+        });
+
+        document.getElementById('page-num').textContent = num;
+    }
+
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+
+
+    window.prevPage = function() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    };
+
+    window.nextPage = function() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    };
+
+    GlobalWorkerOptions.workerSrc = "/js/pdfjs/pdf.worker.mjs";
+    getDocument(url).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById('page-count').textContent = pdfDoc.numPages;
+        renderPage(pageNum);
+    });
+</script> 
       <!-- reward -->
       
     </div>
@@ -170,7 +248,7 @@
     <ul>
       <li>
         Copyrights &copy;
-        2023
+        2023-2025
         <i class="ri-heart-fill heart_icon"></i> Junmeng lyu
       </li>
     </ul>
@@ -249,11 +327,7 @@
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" target="_blank" rel="noopener" href="https://junmeng84319.lofter.com/">Photo</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/friends">Cooperate</a>
+      <a class="nav-item-link" href="/photos">Photo</a>
     </li>
     
   </ul>

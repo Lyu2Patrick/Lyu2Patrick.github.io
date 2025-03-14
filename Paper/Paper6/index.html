@@ -77,29 +77,79 @@
        
   <h2 id="Authors"><a href="#Authors" class="headerlink" title="Authors"></a>Authors</h2><p>Ting Cao, Zhiwei Lian, Heng Du, Jingyun Shen, Yilun Fan, Junmeng Lyu </p>
 <p> School of Design, Shanghai Jiao Tong University, Shanghai, 200240, China</p>
-<p>​    </p>
+<p><a target="_blank" rel="noopener" href="https://doi.org/10.1007/s12273-023-1049-6">https://doi.org/10.1007/s12273-023-1049-6</a><br>​    </p>
 <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>To date, dynamic sleep environment has been attracted the focus of researchers. Owing to the individual difference on sleep phase and thermal comfort, changes in sleep environment should be occupant-centered, and precise regulation of the environment required current sleep stages. However, few studies connected occupants and the environment through physiological signal-based model of sleep staging. Therefore, this study tried to develop a data driven sleep staging model with higher accuracy through sleep experiments collecting information. Raw database was processed and selected efficiently according to the characteristics of physiological signals. Finally, the sleep staging model with an average accuracy of 93.9% was built, and other mean indicators (precision: 82.5%, recall: 83.1%, F1 score: 82.8%) performed well. The features adopted by model were found to come from different brain regions, and the global brain signals were suggested to play an important role in the construction of sleep staging model. Moreover, the computational processing of physiology signals should consider their characteristics, i.e., time domain, frequency domain, time-frequency domain and nonlinear characteristics. The model obtained in this study may deliver a credible reference to advance the research on control of sleep environment.</p>
 <p>​     </p>
-<h2 id="Figures"><a href="#Figures" class="headerlink" title="Figures"></a>Figures</h2><img src="C:\Users\lyujunmeng\AppData\Roaming\Typora\typora-user-images\image-20231130183422549.png" alt="image-20231130183422549" style="zoom:85%;" />
-
-<div align="center">Fig. 5. The ranking results of features 1 to 20. Note: abscissa was related to the feature before ranking, and the specific information could 
-be found in the Appendix in the online version of this article</div>
-
-<p>​     </p>
-<p>​      </p>
-<img src="C:\Users\lyujunmeng\AppData\Roaming\Typora\typora-user-images\image-20231130183450811.png" alt="image-20231130183450811" style="zoom: 80%;" />
-
-<div align="center">Fig. 6. Relationship between the number of features and accuracy: (a) the detail of knee points; (b) the significant difference of three algorithm after the knee points
+<h2 id="Paper-PDF-Viewer"><a href="#Paper-PDF-Viewer" class="headerlink" title="Paper PDF Viewer"></a>Paper PDF Viewer</h2><div style="text-align: center;">
+    <button onclick="prevPage()">Previous</button>
+    <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
+    <button onclick="nextPage()">Next</button>
 </div>
 
-<p>​      </p>
-<p>​      </p>
-<img src="C:\Users\lyujunmeng\AppData\Roaming\Typora\typora-user-images\image-20231130183552896.png" alt="image-20231130183552896" style="zoom:67%;" />
+<p><canvas id="pdf-viewer" style="border: 1px solid #000; width: 100%; max-width: 800px;"></canvas></p>
+<script type="module">
+    import { getDocument, GlobalWorkerOptions } from '/js/pdfjs/pdf.mjs';
 
-<div align="center">Fig. 9. The staging results of an example overnight. Note in (a) and (b): 1-N1 stage, 2-N2 stage, 3-N3 stage, 4-REM stage, 5-Wake stage
-</div>
+    var url = "/files/paper6.pdf";
+    var pdfDoc = null;
+    var pageNum = 1;
+    var pageRendering = false;
+    var pageNumPending = null;
+    var scale = 1.5;
+    var canvas = document.getElementById('pdf-viewer');
+    var ctx = canvas.getContext('2d');
 
-<h2 id="About-this-study"><a href="#About-this-study" class="headerlink" title="About this study"></a>About this study</h2> 
+    function renderPage(num) {
+        pageRendering = true;
+        pdfDoc.getPage(num).then(function(page) {
+            var viewport = page.getViewport({ scale: scale });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            var renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+        });
+
+        document.getElementById('page-num').textContent = num;
+    }
+
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+
+
+    window.prevPage = function() {
+        if (pageNum <= 1) return;
+        pageNum--;
+        queueRenderPage(pageNum);
+    };
+
+    window.nextPage = function() {
+        if (pageNum >= pdfDoc.numPages) return;
+        pageNum++;
+        queueRenderPage(pageNum);
+    };
+
+    GlobalWorkerOptions.workerSrc = "/js/pdfjs/pdf.worker.mjs";
+    getDocument(url).promise.then(function(pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById('page-count').textContent = pdfDoc.numPages;
+        renderPage(pageNum);
+    });
+</script> 
       <!-- reward -->
       
     </div>
@@ -167,7 +217,7 @@ be found in the Appendix in the online version of this article</div>
     <ul>
       <li>
         Copyrights &copy;
-        2023
+        2023-2025
         <i class="ri-heart-fill heart_icon"></i> Junmeng lyu
       </li>
     </ul>
@@ -246,11 +296,7 @@ be found in the Appendix in the online version of this article</div>
     </li>
     
     <li class="nav-item">
-      <a class="nav-item-link" target="_blank" rel="noopener" href="https://junmeng84319.lofter.com/">Photo</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/friends">Cooperate</a>
+      <a class="nav-item-link" href="/photos">Photo</a>
     </li>
     
   </ul>
