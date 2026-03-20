@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" fill="none">
+  <defs>
+    <filter id="rough-road" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.015 0.03" numOctaves="2" seed="11" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="grain-road" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="1" seed="19" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.16 0"/>
+    </filter>
+    <style>
+      .stroke {
+        stroke: #df5a43;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .thick { stroke-width: 8.8; }
+      .mid { stroke-width: 5.4; }
+      .thin { stroke-width: 3.2; }
+      .wash { fill: #df5a43; fill-opacity: 0.11; }
+      .shade { fill: #df5a43; fill-opacity: 0.19; }
+    </style>
+  </defs>
+
+  <g filter="url(#rough-road)">
+    <path class="wash" d="M108 420c40-117 122-186 252-214 131 29 213 98 253 214-83-23-167-34-253-34s-170 11-252 34Z"/>
+    <path class="shade" d="M94 449c60-30 149-47 266-47 118 0 208 17 267 47-69 12-158 18-267 18-108 0-197-6-266-18Z"/>
+
+    <path class="stroke thick" d="M84 438c58-30 149-47 276-47 126 0 218 17 276 47"/>
+    <path class="stroke thick" d="M155 436c16-80 47-136 95-172 30-23 67-39 110-46 44 8 80 23 111 46 48 36 79 92 95 172"/>
+
+    <path class="stroke thick" d="M234 432c-11-68-2-122 24-162 24-36 57-57 102-63 45 6 79 27 102 63 27 41 35 95 24 162"/>
+    <path class="stroke mid" d="M265 357c26-22 58-33 95-33 38 0 69 11 95 33"/>
+    <path class="stroke mid" d="M284 433c16-11 41-18 76-18 35 0 60 7 77 18"/>
+
+    <path class="stroke thick" d="M280 329c4-47 18-78 44-95 15-10 27-14 36-14 10 0 22 4 37 14 25 17 40 48 44 95"/>
+    <path class="wash" d="M313 347c11-16 26-25 47-28 21 3 36 13 48 28-13 10-28 15-48 15-18 0-34-5-47-15Z"/>
+
+    <circle cx="360" cy="196" r="31" class="stroke thick"/>
+    <path class="stroke mid" d="M337 184c7-10 16-15 24-16 10 1 19 6 26 16"/>
+    <path class="stroke thin" d="M347 197c4 3 8 5 13 5 5 0 9-2 13-5"/>
+    <path class="stroke thin" d="M349 211c5 3 8 4 11 4 4 0 7-1 11-4"/>
+
+    <path class="stroke thick" d="M303 255c-22 17-35 41-40 72"/>
+    <path class="stroke thick" d="M457 327c-5-31-18-55-40-72"/>
+    <path class="stroke mid" d="M309 262c16 6 28 19 36 38"/>
+    <path class="stroke mid" d="M375 300c8-19 20-32 36-38"/>
+
+    <path class="stroke thick" d="M190 432c36-34 84-54 144-61"/>
+    <path class="stroke thick" d="M530 432c-36-34-84-54-144-61"/>
+    <path class="stroke mid" d="M221 429c39-19 85-29 139-29"/>
+    <path class="stroke mid" d="M499 429c-39-19-85-29-139-29"/>
+
+    <path class="stroke thick" d="M207 302c20-57 50-98 91-124"/>
+    <path class="stroke thick" d="M513 302c-20-57-50-98-91-124"/>
+    <path class="stroke mid" d="M240 286c26-33 66-56 120-68 55 12 95 35 120 68"/>
+    <path class="stroke thin" d="M201 329c34-19 72-29 114-29 15 0 30 1 45 4"/>
+    <path class="stroke thin" d="M519 329c-34-19-72-29-114-29-15 0-30 1-45 4"/>
+
+    <path class="stroke thick" d="M322 144c12-11 25-18 38-21 14 3 27 10 39 21"/>
+    <path class="stroke mid" d="M310 130c15-8 31-13 50-14 18 1 35 6 50 14"/>
+    <path class="stroke thin" d="M360 95v24"/>
+
+    <path class="stroke thick" d="M116 438c12-49 30-82 56-100"/>
+    <path class="stroke thick" d="M604 438c-12-49-30-82-56-100"/>
+    <path class="stroke mid" d="M149 419c16-16 35-27 58-34"/>
+    <path class="stroke mid" d="M571 419c-16-16-35-27-58-34"/>
+
+    <path class="wash" d="M260 452c28-8 61-12 100-12 39 0 72 4 101 12-25 7-59 11-101 11-41 0-75-4-100-11Z"/>
+  </g>
+
+  <rect x="56" y="58" width="608" height="424" rx="50" filter="url(#grain-road)" opacity="0.55"/>
+</svg>

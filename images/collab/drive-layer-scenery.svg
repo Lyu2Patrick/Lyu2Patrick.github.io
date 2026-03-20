@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" fill="none">
+  <defs>
+    <filter id="rough-scenery" x="-8%" y="-8%" width="116%" height="116%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.014 0.027" numOctaves="2" seed="23" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <filter id="grain-scenery" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="1" seed="27" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.15 0"/>
+    </filter>
+    <style>
+      .stroke {
+        stroke: #f29d52;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .thick { stroke-width: 8.3; }
+      .mid { stroke-width: 5.1; }
+      .thin { stroke-width: 3; }
+      .wash { fill: #f29d52; fill-opacity: 0.12; }
+      .shade { fill: #f29d52; fill-opacity: 0.2; }
+    </style>
+  </defs>
+
+  <g filter="url(#rough-scenery)">
+    <circle cx="545" cy="135" r="55" class="shade"/>
+    <circle cx="545" cy="135" r="42" class="stroke thick"/>
+    <path class="stroke thin" d="M511 140c11-5 22-8 34-8 13 0 26 3 40 9"/>
+    <path class="stroke thin" d="M535 96c8 5 13 13 16 24"/>
+
+    <path class="wash" d="M152 394c44-69 113-115 208-136 94 21 164 67 208 136-69-15-138-23-208-23-69 0-138 8-208 23Z"/>
+    <path class="stroke thick" d="M173 361c44-43 106-69 187-79 81 10 143 36 187 79"/>
+    <path class="stroke mid" d="M221 333c41-29 88-45 139-49 52 4 98 20 140 49"/>
+    <path class="stroke mid" d="M271 308c28-13 58-21 89-24 31 3 61 11 90 24"/>
+    <path class="shade" d="M190 389c54-15 111-22 170-22 60 0 118 7 171 22-62 7-119 11-171 11-51 0-108-4-170-11Z"/>
+
+    <path class="stroke thick" d="M132 345c13-49 31-84 54-104"/>
+    <path class="stroke thick" d="M588 345c-13-49-31-84-54-104"/>
+    <path class="stroke mid" d="M174 280c20-24 40-41 61-51"/>
+    <path class="stroke mid" d="M546 280c-20-24-40-41-61-51"/>
+
+    <path class="wash" d="M92 399c15-31 34-57 59-77 17 2 34 7 53 14-22 16-39 40-50 70-24 1-45-1-62-7Z"/>
+    <path class="wash" d="M628 399c-15-31-34-57-59-77-17 2-34 7-53 14 22 16 39 40 50 70 24 1 45-1 62-7Z"/>
+
+    <path class="stroke thick" d="M96 397c18-34 41-59 69-77"/>
+    <path class="stroke thick" d="M624 397c-18-34-41-59-69-77"/>
+    <path class="stroke mid" d="M127 364c18-16 37-27 58-33"/>
+    <path class="stroke mid" d="M593 364c-18-16-37-27-58-33"/>
+
+    <path class="stroke thick" d="M140 310c-7-19-21-39-41-60"/>
+    <path class="stroke thick" d="M580 310c7-19 21-39 41-60"/>
+    <path class="stroke thick" d="M182 273c-4-26-15-51-34-74"/>
+    <path class="stroke thick" d="M538 273c4-26 15-51 34-74"/>
+    <path class="stroke thick" d="M214 243c3-31-4-62-21-95"/>
+    <path class="stroke thick" d="M506 243c-3-31 4-62 21-95"/>
+
+    <path class="stroke mid" d="M95 260c18 9 36 24 53 44"/>
+    <path class="stroke mid" d="M625 260c-18 9-36 24-53 44"/>
+    <path class="stroke mid" d="M149 188c13 12 23 26 31 42"/>
+    <path class="stroke mid" d="M571 188c-13 12-23 26-31 42"/>
+
+    <path class="stroke thick" d="M228 240c36-41 81-62 132-65 52 3 96 24 132 65"/>
+    <path class="stroke thin" d="M206 223c42-58 93-88 154-91 62 3 114 33 155 91"/>
+    <path class="stroke thin" d="M259 182c31-18 64-28 101-31 37 3 71 13 101 31"/>
+
+    <path class="stroke thick" d="M508 94c9 5 17 10 25 15"/>
+    <path class="stroke thick" d="M585 106c14 7 27 10 39 10"/>
+    <path class="stroke thick" d="M103 124c13 9 28 13 44 13"/>
+    <path class="stroke thick" d="M148 100c12 8 26 12 43 13"/>
+
+    <path class="stroke thick" d="M470 100c10 2 20 6 29 12"/>
+    <path class="stroke thick" d="M622 175c-18-1-35 4-49 15"/>
+    <path class="stroke thick" d="M98 175c18-1 35 4 49 15"/>
+
+    <path class="stroke thick" d="M126 144c11-8 24-13 41-14"/>
+    <path class="stroke thick" d="M594 144c-11-8-24-13-41-14"/>
+    <path class="stroke thin" d="M491 181c19 4 38 12 57 25"/>
+    <path class="stroke thin" d="M229 201c34-17 78-25 131-25"/>
+    <path class="stroke thin" d="M491 201c-34-17-78-25-131-25"/>
+  </g>
+
+  <rect x="56" y="58" width="608" height="424" rx="50" filter="url(#grain-scenery)" opacity="0.5"/>
+</svg>
