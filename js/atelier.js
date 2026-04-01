@@ -3,7 +3,6 @@
     projects: [
       {
         title: "Mechanisms of indoor and outdoor environmental impacts on physical and mental health",
-        href: "/categories/Program1/",
         cover: "/images/project-covers/population-health.svg",
         sponsor: "National Key R&D Program of China",
         period: "Nov 2022 - Nov 2025",
@@ -17,7 +16,6 @@
       },
       {
         title: "Air quality assurance system for cabins of large cruise ships",
-        href: "/categories/Program2/",
         cover: "/images/project-covers/cruise-cabin.svg",
         sponsor: "Ministry of Industry of China",
         period: "Sep 2020 - Oct 2023",
@@ -31,7 +29,6 @@
       },
       {
         title: "Thermal environmental control strategies targeting gender differences",
-        href: "/categories/Program3/",
         cover: "/images/project-covers/gender-thermal.svg",
         sponsor: "Midea Air-Conditioning Equipment Co., Ltd",
         period: "Nov 2021 - Aug 2023",
@@ -45,7 +42,6 @@
       },
       {
         title: "Vehicle cabin thermal sensation assessment based on thermal imaging",
-        href: "/categories/Program4/",
         cover: "/images/project-covers/cabin-imaging.svg",
         sponsor: "NIO Automotive Co., Ltd",
         period: "Nov 2022 - Dec 2023",
@@ -59,6 +55,20 @@
       }
     ],
     papers: [
+      {
+        year: 2026,
+        title: "LLM-Powered Agent for Occupant-Centric Indoor Environment Control: Design, Implementation, and Evaluation",
+        href: "/Paper/Paper20/",
+        focus: "LLM-based occupant-centric indoor environment control with multi-source sensing, knowledge-graph reasoning, and coordinated IoT device control",
+        kind: "SSRN preprint"
+      },
+      {
+        year: 2025,
+        title: "Optimal control-based coordinated operation strategy for fan and air conditioning systems: Balancing individual thermal comfort and energy efficiency",
+        href: "/Paper/Paper19/",
+        focus: "Coordinated fan and air-conditioning control for individualized thermal comfort and energy efficiency",
+        kind: "Control strategy"
+      },
       {
         year: 2025,
         title: "Analysis of occupant thermal comfort and energy-saving potential based on cooling behaviors in residential buildings: A case study of Shanghai",
@@ -262,9 +272,7 @@
       .map(function (project) {
         if (compact) {
           return (
-            '<a class="mini-project-card reveal" href="' +
-            project.href +
-            '">' +
+            '<article class="mini-project-card reveal">' +
             '<img src="' +
             project.cover +
             '" alt="' +
@@ -276,7 +284,7 @@
             project.title +
             "</h4><p>" +
             project.summary +
-            "</p></div></a>"
+            "</p></div></article>"
           );
         }
         return (
@@ -306,9 +314,7 @@
           "</li></ul>" +
           '<div class="project-footer"><span class="tiny-chip">' +
           project.sponsor +
-          '</span><div style="margin-top:0.7rem"><a class="project-link" href="' +
-          project.href +
-          '">Open project <i class="ri-arrow-right-line"></i></a></div></div>' +
+          "</span></div>" +
           "</article>"
         );
       })
@@ -376,7 +382,7 @@
           '<section class="year-block">' +
           '<div class="year-heading">' +
           year +
-          '</div><table class="ledger-table"><thead><tr><th>Paper</th><th>Lens</th><th>Link</th></tr></thead><tbody>' +
+          '</div><table class="ledger-table"><tbody>' +
           rows +
           "</tbody></table></section>"
         );

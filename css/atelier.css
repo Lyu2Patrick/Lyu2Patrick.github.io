@@ -23,7 +23,7 @@ body.atelier-page {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  font-family: "IBM Plex Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family: "Outfit", "PingFang SC", "Microsoft YaHei", sans-serif;
   background:
     radial-gradient(circle at 20% 15%, rgba(223, 90, 67, 0.18), transparent 20%),
     radial-gradient(circle at 76% 24%, rgba(245, 230, 210, 0.08), transparent 18%),
@@ -66,12 +66,12 @@ a {
   width: max-content;
   max-width: calc(100vw - 96px);
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr;
   grid-template-areas:
-    "doodle nav"
-    ". caption";
+    "nav"
+    "caption";
+  justify-items: center;
   align-items: center;
-  column-gap: 1.1rem;
   row-gap: 0.18rem;
   pointer-events: auto;
   transform-origin: center top;
@@ -79,11 +79,7 @@ a {
 }
 
 .topbar-doodle {
-  grid-area: doodle;
-  width: 84px;
-  color: #f8e6d6;
-  opacity: 0.92;
-  animation: topbar-doodle-float 6.6s ease-in-out infinite;
+  display: none;
 }
 
 .topbar-doodle svg {
@@ -213,7 +209,7 @@ a {
 
 .topbar-caption {
   grid-area: caption;
-  justify-self: start;
+  justify-self: center;
   min-height: 1.2rem;
   color: var(--line);
   font-family: "Patrick Hand", "Caveat", cursive;
@@ -289,14 +285,7 @@ a {
 }
 
 .atelier-rail {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 56px;
-  display: flex;
-  justify-content: center;
-  padding: 0.6rem 0;
-  z-index: 12;
+  display: none !important;
 }
 
 .atelier-rail.left {
@@ -345,7 +334,7 @@ a {
 .atelier-shell {
   position: relative;
   z-index: 5;
-  width: min(1120px, calc(100vw - 170px));
+  width: min(1120px, calc(100vw - 72px));
   margin: 0 auto;
   padding: 0 0 4rem;
 }
@@ -480,6 +469,54 @@ a {
 .home-book-stage {
   position: relative;
   min-width: 0;
+}
+
+.home-portrait-stage {
+  --portrait-width: min(80%, 400px);
+  position: relative;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.7rem;
+}
+
+.home-portrait-frame {
+  position: relative;
+  width: var(--portrait-width);
+  aspect-ratio: 4 / 5;
+  border-radius: 34px;
+  overflow: hidden;
+  box-shadow:
+    0 28px 60px rgba(17, 12, 11, 0.22),
+    0 6px 18px rgba(223, 90, 67, 0.16);
+}
+
+.home-portrait-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 26%),
+    linear-gradient(0deg, rgba(16, 10, 10, 0.1), transparent 24%);
+  z-index: 1;
+}
+
+.home-portrait-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+}
+
+.home-portrait-stage .hero-signature {
+  width: var(--portrait-width);
+  margin-top: 0;
+  padding-right: 0.15rem;
+  text-align: right;
 }
 
 .stage-window {
@@ -689,8 +726,8 @@ a {
 .journal-title {
   margin: 1rem 0 0.8rem;
   max-width: 12ch;
-  font-family: "Cormorant Garamond", "Times New Roman", serif;
-  font-size: clamp(3.5rem, 7vw, 5.4rem);
+  font-family: "Bungee", "Times New Roman", serif;
+  font-size: clamp(2.3rem, 5.3vw, 3.8rem);
   line-height: 0.92;
   color: var(--line);
 }
@@ -702,6 +739,39 @@ a {
   font-size: 1.08rem;
   line-height: 1.8;
   color: var(--muted);
+}
+
+.paper-publication-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.65rem;
+  align-items: center;
+  margin: 0.8rem 0 0;
+  max-width: 54rem;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.paper-journal-name {
+  color: var(--line-deep);
+  font-weight: 600;
+}
+
+.paper-publication-sep {
+  color: rgba(93, 75, 62, 0.46);
+}
+
+.paper-doi-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.paper-doi-link:hover {
+  color: var(--line);
+  text-decoration: underline;
 }
 
 .hero-meta {
@@ -1270,7 +1340,7 @@ a {
 
 .panel-title {
   margin: 0 0 1rem;
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Patrick Hand", serif;
   font-size: 2rem;
   color: var(--ink);
 }
@@ -1291,11 +1361,6 @@ a {
   border-radius: 20px;
   background: rgba(255, 250, 243, 0.7);
   border: 1.5px solid rgba(223, 90, 67, 0.22);
-  transition: transform 0.25s ease;
-}
-
-.mini-project-card:hover {
-  transform: translateY(-2px);
 }
 
 .mini-project-card img {
@@ -1390,12 +1455,6 @@ a {
   border-radius: 24px;
   background: rgba(255, 251, 245, 0.75);
   border: 1.5px solid rgba(223, 90, 67, 0.18);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 26px rgba(33, 24, 21, 0.08);
 }
 
 .project-cover {
@@ -1468,22 +1527,24 @@ a {
 }
 
 .year-heading {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.4rem 1rem;
-  margin-bottom: 0.95rem;
-  border-radius: 999px;
-  background: rgba(223, 90, 67, 0.12);
-  border: 1.5px solid rgba(223, 90, 67, 0.35);
+  display: inline-block;
+  padding: 0;
+  margin-bottom: 0.6rem;
   color: var(--line);
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-family: "Patrick Hand", "PingFang SC", "Microsoft YaHei", cursive;
+  font-size: 1.75rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
 .ledger-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 0.75rem;
+  border-spacing: 0 0.65rem;
+}
+
+.year-heading + .ledger-table {
+  margin-top: -0.15rem;
 }
 
 .ledger-table thead th {
@@ -1691,9 +1752,128 @@ a {
   font-size: clamp(2.9rem, 5.8vw, 4.8rem);
 }
 
+[data-page="about"] .detail-title {
+  max-width: 10.5ch;
+  font-family: "Bungee", sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.55rem, 2.15vw, 2.1rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+}
+
+[data-page="about"] .hero-subtitle {
+  max-width: 620px;
+  margin-top: 0.75rem;
+  font-size: 0.93rem;
+  line-height: 1.72;
+}
+
+[data-page="papers"] .hero-title {
+  font-family: "Outfit", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+}
+
+[data-page="papers"] .journal-title {
+  font-family: "Bungee", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+[data-page="papers"] .detail-hero,
+[data-page="papers"] .detail-hero-single {
+  padding: 4rem 4.2rem 3rem;
+}
+
+[data-page="papers"] .detail-hero > div,
+[data-page="papers"] .detail-hero-single > div {
+  max-width: none;
+  padding-top: 0.4rem;
+}
+
+[data-page="papers"].detail-page .hero-title.detail-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  max-width: 48ch;
+  font-size: clamp(1.45rem, 2.3vw, 2.2rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  text-wrap: pretty;
+}
+
 .detail-hero {
   grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
   align-items: stretch;
+}
+
+.about-hero {
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 270px);
+  align-items: start;
+  gap: 2.3rem;
+  padding: 3.25rem 3.5rem 2.9rem;
+}
+
+.about-hero-copy {
+  max-width: 700px;
+  padding-left: 0.15rem;
+}
+
+.about-portrait-card {
+  width: min(100%, 240px);
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.about-portrait-card img {
+  display: block;
+  width: min(100%, 240px);
+  height: auto;
+  margin: 0 auto;
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+[data-page="about"] .about-portrait-card {
+  margin: 0.55rem 0 0;
+  justify-self: end;
+}
+
+.about-layout {
+  display: block;
+}
+
+.about-prose {
+  max-width: 100%;
+}
+
+.about-stat-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.about-stat-item {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1.5px solid rgba(223, 90, 67, 0.14);
+}
+
+.about-stat-item strong {
+  color: var(--ink);
+  font-size: 1.02rem;
+}
+
+.about-stat-item span {
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .detail-aside,
@@ -1723,9 +1903,13 @@ a {
 .detail-aside h2,
 .about-card h2 {
   margin: 0 0 0.6rem;
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Outfit", serif;
   font-size: 2rem;
   line-height: 1.05;
+}
+
+#profile .about-card-kicker {
+  font-size: 0.96rem;
 }
 
 .detail-aside p,
@@ -1869,7 +2053,7 @@ a {
   margin: 2rem 0 0.9rem;
   padding-bottom: 0.45rem;
   border-bottom: 2px dashed rgba(223, 90, 67, 0.26);
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Outfit", serif;
   font-size: 2rem;
 }
 
@@ -1950,7 +2134,9 @@ a {
 
 .paper-card-title {
   margin: 0 0 0.9rem;
-  font-family: "Cormorant Garamond", serif;
+  font-family: "Outfit", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   font-size: 2rem;
   color: var(--ink);
 }
@@ -2012,10 +2198,220 @@ a {
   gap: 1.35rem;
 }
 
+.about-prose .about-card + .about-card {
+  margin-top: 1.25rem;
+}
+
 .about-list,
 .award-list {
   margin: 0;
   padding-left: 1.15rem;
+}
+
+.education-list {
+  display: grid;
+  gap: 0.95rem;
+}
+
+.education-item {
+  position: relative;
+  padding: 1.05rem 1.1rem 1rem 1.35rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.52);
+  border: 1.5px solid rgba(223, 90, 67, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+
+.education-item::before {
+  content: "";
+  position: absolute;
+  left: 0.72rem;
+  top: 0.95rem;
+  bottom: 0.95rem;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(223, 90, 67, 0.86), rgba(223, 90, 67, 0.22));
+}
+
+.education-item-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.education-copy {
+  min-width: 0;
+}
+
+.education-school {
+  margin: 0;
+  font-family: "Outfit", serif;
+  font-size: 1.65rem;
+  line-height: 1.05;
+  color: var(--ink);
+}
+
+.education-degree {
+  margin: 0.28rem 0 0;
+  color: #3d2d27;
+  font-weight: 600;
+  line-height: 1.58;
+}
+
+.education-period {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.72rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(223, 90, 67, 0.18);
+  background: rgba(255, 249, 241, 0.92);
+  color: var(--line);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.education-note {
+  margin: 0.68rem 0 0;
+  color: var(--muted);
+  line-height: 1.68;
+}
+
+.section-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+  padding: 0.42rem 0.76rem;
+  border-radius: 999px;
+  background: rgba(255, 249, 241, 0.92);
+  border: 1.5px solid rgba(223, 90, 67, 0.18);
+}
+
+.section-updated-label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.section-updated-time {
+  color: var(--line);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.current-work-timeline {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 1.65rem;
+  list-style: none;
+}
+
+.current-work-timeline::before {
+  content: "";
+  position: absolute;
+  left: 0.42rem;
+  top: 0.2rem;
+  bottom: 0.2rem;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(223, 90, 67, 0.82), rgba(223, 90, 67, 0.16));
+}
+
+.current-work-item {
+  position: relative;
+  padding: 0 0 0.95rem;
+}
+
+.current-work-item:last-child {
+  padding-bottom: 0;
+}
+
+.current-work-item::before {
+  content: "";
+  position: absolute;
+  left: -1.38rem;
+  top: 0.38rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  background: var(--line);
+  box-shadow:
+    0 0 0 4px rgba(223, 90, 67, 0.14),
+    0 0 0 8px rgba(223, 90, 67, 0.06);
+}
+
+.current-work-item p {
+  margin: 0;
+  color: #3d2d27;
+  line-height: 1.72;
+}
+
+.project-exp-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.project-exp-item {
+  padding: 1.12rem 1.15rem 1.05rem;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.54);
+  border: 1.5px solid rgba(223, 90, 67, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.34);
+}
+
+.project-exp-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.project-exp-main {
+  min-width: 0;
+}
+
+.project-exp-title {
+  margin: 0;
+  font-family: "Outfit", serif;
+  font-size: 1.55rem;
+  line-height: 1.08;
+  color: var(--ink);
+}
+
+.project-exp-main .project-exp-funder {
+  margin-top: 0.42rem;
+}
+
+.project-exp-period {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.74rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(223, 90, 67, 0.18);
+  background: rgba(255, 249, 241, 0.92);
+  color: var(--line);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.project-exp-funder {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  line-height: 1.62;
+  text-transform: uppercase;
 }
 
 .inline-stat-strip {
@@ -2206,7 +2602,6 @@ a {
     width: 100%;
     grid-template-columns: 1fr;
     grid-template-areas:
-      "doodle"
       "nav"
       "caption";
     justify-items: stretch;
@@ -2214,8 +2609,7 @@ a {
   }
 
   .topbar-doodle {
-    width: 68px;
-    margin: 0 auto;
+    display: none;
   }
 
   .topbar-nav {
@@ -2328,6 +2722,80 @@ a {
   .hero-title,
   .journal-title {
     font-size: 2.8rem;
+  }
+
+  [data-page="about"] .detail-title {
+    max-width: none;
+    font-size: clamp(2.1rem, 8.2vw, 3rem);
+  }
+
+  [data-page="papers"] .detail-hero,
+  [data-page="papers"] .detail-hero-single {
+    padding: 1.8rem 1.6rem 1.5rem;
+  }
+
+  [data-page="papers"].detail-page .hero-title.detail-title {
+    max-width: none;
+    font-size: clamp(1.2rem, 5.2vw, 1.7rem);
+    line-height: 1.14;
+  }
+
+  [data-page="about"] .hero-subtitle {
+    font-size: 1.08rem;
+    line-height: 1.64;
+  }
+
+  .about-hero {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+    padding: 1.35rem;
+  }
+
+  .home-portrait-stage {
+    --portrait-width: min(100%, 320px);
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .home-portrait-frame {
+    border-radius: 28px;
+  }
+
+  .home-portrait-stage .hero-signature {
+    padding-right: 0;
+    text-align: left;
+  }
+
+  .education-item-head {
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  .education-period {
+    max-width: 100%;
+  }
+
+  .section-updated {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .project-exp-head {
+    flex-direction: column;
+    gap: 0.72rem;
+  }
+
+  .project-exp-period {
+    max-width: 100%;
+  }
+
+  .about-portrait-card {
+    width: min(100%, 220px);
+  }
+
+  [data-page="about"] .about-portrait-card {
+    justify-self: start;
   }
 
   .photo-wall {

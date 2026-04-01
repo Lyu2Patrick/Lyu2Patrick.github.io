@@ -152,12 +152,45 @@ PAPERS = {
         "kind": "Case study",
         "focus": "Residential cooling behavior, comfort, and energy-saving potential in Shanghai",
     },
+    "Paper19": {
+        "year": "2025",
+        "kind": "Control strategy",
+        "focus": "Coordinated fan and air-conditioning control for individualized thermal comfort and energy efficiency",
+    },
+    "Paper20": {
+        "year": "2026",
+        "kind": "SSRN preprint",
+        "focus": "LLM-based occupant-centric indoor environment control with multi-source sensing, knowledge-graph reasoning, and coordinated IoT device control",
+    },
+}
+
+PAPER_PUBLICATIONS = {
+    "Paper1": {"journal": "Journal of Building Engineering", "doi": "10.1016/j.jobe.2021.103016"},
+    "Paper2": {"journal": "Journal of Thermal Biology", "doi": "10.1016/j.jtherbio.2022.103401"},
+    "Paper3": {"journal": "Environmental Pollution", "doi": "10.1016/j.envpol.2022.120180"},
+    "Paper4": {"journal": "Energy and Buildings", "doi": "10.1016/j.enbuild.2023.112856"},
+    "Paper5": {"journal": "Building and Environment", "doi": "10.1016/j.buildenv.2023.110405"},
+    "Paper6": {"journal": "Building Simulation", "doi": "10.1007/s12273-023-1049-6"},
+    "Paper7": {"journal": "Energy and Buildings", "doi": "10.1016/j.enbuild.2023.113345"},
+    "Paper8": {"journal": "Building and Environment", "doi": "10.1016/j.buildenv.2023.111002"},
+    "Paper9": {"journal": "Journal of Building Engineering", "doi": "10.1016/j.jobe.2023.108134"},
+    "Paper10": {"journal": "Journal of Building Engineering", "doi": "10.1016/j.jobe.2023.108134"},
+    "Paper11": {"journal": "Science of The Total Environment", "doi": "10.1016/j.scitotenv.2024.170683"},
+    "Paper12": {"journal": "Building and Environment", "doi": "10.1016/j.buildenv.2024.111692"},
+    "Paper13": {"journal": "Building and Environment", "doi": "10.1016/j.buildenv.2024.111727"},
+    "Paper14": {"journal": "Building Simulation", "doi": "10.1007/s12273-024-1147-0"},
+    "Paper15": {"journal": "Energy and Buildings", "doi": "10.1016/j.enbuild.2024.114629"},
+    "Paper16": {"journal": "Energy and Buildings", "doi": "10.1016/j.enbuild.2024.115019"},
+    "Paper17": {"journal": "Building and Environment", "doi": "10.1016/j.buildenv.2024.112456"},
+    "Paper18": {"journal": "Building and Environment", "doi": "10.1016/j.buildenv.2025.112792"},
+    "Paper19": {"journal": "Building and Environment", "doi": "10.1016/j.buildenv.2025.113523"},
+    "Paper20": {"journal": "SSRN Electronic Journal", "doi": "10.2139/ssrn.6136668"},
 }
 
 
 FONT_LINK = (
-    "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&"
-    "family=IBM+Plex+Sans:wght@400;500;600;700&family=Patrick+Hand&display=swap"
+    "https://fonts.googleapis.com/css2?family=Bungee&"
+    "family=Outfit&family=Patrick+Hand&display=swap"
 )
 
 
@@ -205,6 +238,43 @@ def extract_doi(body: str) -> str | None:
     if match:
         return match.group(1)
     return None
+
+
+def normalize_doi(doi: str | None) -> tuple[str | None, str | None]:
+    if not doi:
+        return None, None
+
+    value = doi.strip()
+    for prefix in ("DOI:", "doi:"):
+        if value.startswith(prefix):
+            value = value[len(prefix):].strip()
+            break
+
+    for prefix in ("https://doi.org/", "http://doi.org/", "https://dx.doi.org/"):
+        if value.startswith(prefix):
+            return value.replace("http://doi.org/", "https://doi.org/", 1), value[len(prefix):]
+
+    return f"https://doi.org/{value}", value
+
+
+def render_publication_line(journal: str | None, doi: str | None) -> str:
+    doi_url, doi_label = normalize_doi(doi)
+    pieces: list[str] = []
+
+    if journal:
+        pieces.append(f'<span class="paper-journal-name">{html.escape(journal)}</span>')
+    if journal and doi_label:
+        pieces.append('<span class="paper-publication-sep">/</span>')
+    if doi_url and doi_label:
+        pieces.append(
+            f'<a class="paper-doi-link" href="{html.escape(doi_url)}" target="_blank" '
+            f'rel="noopener">DOI: {html.escape(doi_label)}</a>'
+        )
+
+    if not pieces:
+        return ""
+
+    return f'<p class="paper-publication-line">{"".join(pieces)}</p>'
 
 
 def extract_pdf(body: str) -> str | None:
@@ -354,60 +424,7 @@ def topbar(active: str) -> str:
 
 
 def rails(active: str) -> str:
-    home_active = " is-active" if active == "home" else ""
-    papers_active = " is-active" if active == "papers" else ""
-    projects_active = " is-active" if active == "projects" else ""
-    photos_active = " is-active" if active == "photos" else ""
-    about_active = " is-active" if active == "about" else ""
-    return dedent(
-        f"""
-        <div class="atelier-rail left" aria-hidden="true">
-          <div class="rail-stack">
-            <div class="rail-segment">
-              <a class="rail-stamp{home_active}" href="/" data-page-link="home">J</a>
-              <a class="rail-stamp{papers_active}" href="/Paper" data-page-link="papers"><i class="ri-book-open-line"></i></a>
-              <a class="rail-stamp{projects_active}" href="/categories" data-page-link="projects"><i class="ri-flask-line"></i></a>
-            </div>
-            <div class="rail-segment">
-              <a class="rail-stamp{photos_active}" href="/photos" data-page-link="photos"><i class="ri-camera-3-line"></i></a>
-              <a class="rail-stamp{about_active}" href="/about" data-page-link="about"><i class="ri-user-smile-line"></i></a>
-              <a class="rail-stamp" href="https://github.com/Lyu2Patrick" target="_blank" rel="noopener"><i class="ri-github-line"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <div class="atelier-rail right" aria-hidden="true">
-          <div class="rail-stack">
-            <div class="rail-segment">
-              <a class="rail-stamp" href="/Paper/Paper14/"><i class="ri-thermometer-line"></i></a>
-              <a class="rail-stamp" href="/categories/Program3/"><i class="ri-settings-3-line"></i></a>
-              <a class="rail-stamp" href="/photos"><i class="ri-image-line"></i></a>
-            </div>
-            <div class="rail-segment">
-              <a class="rail-stamp" href="/Paper/Paper10/"><i class="ri-windy-line"></i></a>
-              <a class="rail-stamp" href="/Paper/Paper16/"><i class="ri-file-paper-2-line"></i></a>
-              <a class="rail-stamp" href="/about"><i class="ri-map-pin-line"></i></a>
-            </div>
-          </div>
-        </div>
-        """
-    ).strip()
-
-
-def footer() -> str:
-    return dedent(
-        """
-        <footer class="atelier-footer">
-          <span>Notebook edition inspired by editorial portfolios and hand-drawn field journals.</span>
-          <span>
-            <a href="/about">About</a> /
-            <a href="/Paper">Papers</a> /
-            <a href="/categories">Projects</a> /
-            <a href="/photos">Photos</a>
-          </span>
-        </footer>
-        """
-    ).strip()
+    return ""
 
 
 def wrap_page(
@@ -436,7 +453,7 @@ def wrap_page(
             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
             <link href="{FONT_LINK}" rel="stylesheet" />
             <link rel="stylesheet" href="/css/fonts/remixicon.css" />
-            <link rel="stylesheet" href="/css/atelier.css" />
+            <link rel="stylesheet" href="/css/atelier.css?v=20260401d" />
           </head>
           <body class="atelier-page detail-page" data-page="{active}">
             {rails(active)}
@@ -461,9 +478,8 @@ def wrap_page(
                 </div>
               </section>
 
-              {footer()}
             </main>
-            <script src="/js/atelier.js"></script>
+            <script src="/js/atelier.js?v=20260401f"></script>
           </body>
         </html>
         """
@@ -560,48 +576,30 @@ def render_project_page(path: Path) -> str:
 def render_paper_page(path: Path) -> str:
     slug = path.parent.name
     meta = PAPERS[slug]
+    publication = PAPER_PUBLICATIONS.get(slug, {})
     source = path.read_text(encoding="utf-8")
     body = extract_body(source)
     title = extract_title(source)
     author_block, paper_body, pdf_block, _ = normalize_paper_source(body)
     authors = extract_authors(body)
-    doi = extract_doi(body)
+    doi = publication.get("doi") or extract_doi(body)
+    journal = publication.get("journal")
     pdf = extract_pdf(body)
     sections = extract_sections(paper_body)
-
-    action_links = ['<a class="sketch-button primary" href="/Paper">All papers</a>']
-    if pdf:
-      action_links.append(
-          f'<a class="sketch-button" href="{html.escape(pdf)}" download>Download PDF</a>'
-      )
 
     index_html = "".join(
         f'<li><a href="#{html.escape(anchor)}">{html.escape(label)}</a></li>'
         for anchor, label in sections
     ) or '<li><a href="/Paper">Return to paper ledger</a></li>'
 
-    doi_line = ""
-    if doi:
-        doi_line = (
-            f'<p class="paper-doi-line"><span>DOI page</span>'
-            f'<a href="{html.escape(doi)}" target="_blank" rel="noopener">{html.escape(doi)}</a></p>'
-        )
+    publication_line = render_publication_line(journal, doi)
 
     hero = dedent(
         f"""
         <div>
-          <span class="eyebrow">Paper Note • {html.escape(meta['year'])}</span>
           <h1 class="hero-title detail-title">{html.escape(title)}</h1>
-          {doi_line}
           <p class="hero-subtitle">{html.escape(meta['focus'])}</p>
-          <div class="hero-actions">
-            {' '.join(action_links)}
-          </div>
-          <div class="hero-tags">
-            <span>{html.escape(meta['kind'])}</span>
-            <span>Thermal comfort research</span>
-            <span>Notebook entry {html.escape(slug.replace('Paper', '#'))}</span>
-          </div>
+          {publication_line}
         </div>
         """
     ).strip()
@@ -883,9 +881,6 @@ def render_about_page() -> str:
 
 
 def main() -> None:
-    for page in sorted((ROOT / "categories").glob("Program*/index.html")):
-        page.write_text(render_project_page(page), encoding="utf-8")
-
     for page in sorted((ROOT / "Paper").glob("Paper*/index.html")):
         page.write_text(render_paper_page(page), encoding="utf-8")
 
