@@ -414,7 +414,7 @@ def topbar(active: str) -> str:
               <a class="{cls('projects')}" href="/categories" data-page-link="projects" data-nav-note="workbench"><span>projects</span></a>
               <a class="{cls('papers')}" href="/Paper" data-page-link="papers" data-nav-note="paper trail"><span>papers</span></a>
               <a class="{cls('photos')}" href="/photos" data-page-link="photos" data-nav-note="photo roll"><span>photos</span></a>
-              <a class="topbar-link" href="https://github.com/Lyu2Patrick" target="_blank" rel="noopener" data-nav-note="say hello"><span>connect</span></a>
+              <a class="topbar-link" href="mailto:junmenglyu@berkeley.edu" data-nav-note="say hello"><span>connect</span></a>
             </nav>
             <div class="topbar-caption" data-topbar-caption>{active_note}</div>
           </div>
