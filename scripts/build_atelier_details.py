@@ -155,7 +155,7 @@ PAPERS = {
     "Paper19": {
         "year": "2025",
         "kind": "Control strategy",
-        "focus": "Coordinated fan and air-conditioning control for individualized thermal comfort and energy efficiency",
+        "focus": "Optimal coordinated control of shared thermostats and local fans for individualized thermal comfort and energy efficiency.",
     },
     "Paper20": {
         "year": "2026",

@@ -387,7 +387,7 @@ a {
 
 .home-book-top {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  grid-template-columns: minmax(0, 1.22fr) minmax(300px, 0.78fr);
   gap: 2.35rem;
   align-items: center;
 }
@@ -459,7 +459,7 @@ a {
 }
 
 .home-hero-subtitle {
-  max-width: 64ch;
+  max-width: 74ch;
 }
 
 .home-hero-meta {
@@ -1900,6 +1900,15 @@ a {
   text-transform: uppercase;
 }
 
+[data-page="about"] .about-card-kicker {
+  margin-bottom: 0.5rem;
+  font-family: "Patrick Hand", "PingFang SC", "Microsoft YaHei", cursive;
+  font-size: 1.48rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
 .detail-aside h2,
 .about-card h2 {
   margin: 0 0 0.6rem;
@@ -1909,7 +1918,7 @@ a {
 }
 
 #profile .about-card-kicker {
-  font-size: 0.96rem;
+  font-size: 1.48rem;
 }
 
 .detail-aside p,
@@ -2314,7 +2323,7 @@ a {
 }
 
 .current-work-timeline::before {
-  content: "";
+  content: none;
   position: absolute;
   left: 0.42rem;
   top: 0.2rem;
